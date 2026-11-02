@@ -117,6 +117,13 @@ body {
   z-index: 1;
 }
 
+/* The nav sticks to the top of the screen once it scrolls up there. */
+.page-content > .hero-nav {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
 .page-content .hero-nav a {
   color: inherit;
 }
@@ -151,7 +158,7 @@ a:hover {
   text-decoration: none;
 }
 
-.hero-nav > a {
+.hero-title {
   max-width: 260px;
 }
 
@@ -169,29 +176,35 @@ a:hover {
   background: transparent;
   color: inherit;
   padding: 2rem 1rem;
+  /* Keeps section headings clear of the sticky nav when jumped to
+     (read by script.js). */
+  scroll-margin-top: calc(3 * 1.15rem + 2rem);
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+/* Desktop: labels in a narrow left column, content on the right. */
 .section-grid {
   display: grid;
   gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
 }
 
 .section-label {
   color: inherit;
   font-weight: bold;
   font-size: 1rem;
-  grid-column: auto;
+  grid-column: 1;
   letter-spacing: normal;
   line-height: 1.15;
   text-transform: uppercase;
 }
 
 .section-body {
-  grid-column: auto;
+  grid-column: 2;
 }
 
 .about-section .section-body {
+  grid-column: 1 / -1;
   text-align: center;
   max-width: 600px;
   padding: 0 1rem;
@@ -255,10 +268,72 @@ a:hover {
   font-style: italic;
 }
 
+/* Content fades and rises into place as it scrolls into view (script.js). */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @media (max-width: 700px) {
+  /* Mobile drops the image strip, width change, blur and zoom: the nav sits
+     over the photo and a background fades in once the page is scrolled. */
+  .image-window {
+    display: none;
+  }
+
+  .hero-scroll {
+    --content-width: 100%;
+  }
+
+  .hero {
+    height: 100vh;
+    height: 100svh;
+    overflow: visible;
+  }
+
+  /* Hangs below the screen so it also fills behind Safari's address bar. */
+  #hero-image {
+    filter: none;
+    height: 125vh;
+    height: calc(100svh + 25vh);
+    transform: none;
+  }
+
+  .page-content > :not(.hero-nav) {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .page-content.is-scrolling > * {
+    opacity: 1;
+  }
+
   .hero-nav {
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  /* Only the links row stays on screen; the title scrolls away above it. */
+  .page-content > .hero-nav {
+    top: calc(-1 * (3 * 1.15rem + 1.5rem));
+  }
+
+  .site-section {
+    scroll-margin-top: calc(1.15rem + 2rem);
   }
 
   .hero-links {
