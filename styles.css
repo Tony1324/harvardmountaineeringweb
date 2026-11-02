@@ -7,6 +7,7 @@
   --content-background: #fff;
   --content-text: #17231f;
   --content-muted: #60706a;
+  --viewport-height: 100dvh;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,7 +34,7 @@ body {
   bottom: 0;
   clip-path: inset(calc(100% - var(--window-height, 0px)) 0 0);
   filter: blur(min(calc(var(--scroll-progress, 0) * 28px), 14px));
-  height: 100vh;
+  height: var(--viewport-height);
   left: 0;
   object-fit: cover;
   object-position: center;
@@ -53,7 +54,7 @@ body {
 }
 
 .hero {
-  height: 100vh;
+  height: var(--viewport-height);
   inset: 0;
   overflow: hidden;
   position: sticky;
@@ -63,7 +64,7 @@ body {
 
 #hero-image {
   filter: blur(min(calc(var(--scroll-progress, 0) * 28px), 14px));
-  height: 100%;
+  height: var(--viewport-height);
   object-fit: cover;
   object-position: center;
   transform: scale(calc(1 + (var(--scroll-progress, 0) * 0.08)));
@@ -85,7 +86,9 @@ body {
   background: transparent;
   border: 0;
   bottom: calc(8% - (var(--scroll-progress, 0) * 8%));
-  height: calc(105px + (var(--scroll-progress, 0) * (100vh - 105px)));
+  height: calc(
+    105px + (var(--scroll-progress, 0) * (var(--viewport-height) - 105px))
+  );
   left: var(--content-inset);
   pointer-events: none;
   position: absolute;
