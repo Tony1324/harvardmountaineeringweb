@@ -168,7 +168,7 @@ a:hover {
 .site-section {
   background: transparent;
   color: inherit;
-  padding: 1.25rem 1rem;
+  padding: 2rem 1rem;
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
@@ -281,5 +281,4 @@ a:hover {
   .person:nth-child(odd) {
     margin-right: 0;
   }
-
 }

@@ -68,9 +68,11 @@ const updateScrollProgress = () => {
     1
   );
   heroScroll.style.setProperty("--scroll-progress", progress);
+  const isMobile = window.matchMedia("(max-width: 700px)").matches;
+  const windowRatio = isMobile ? 0.12 : 0.05;
   imageWindow.style.setProperty(
     "--window-height",
-    `${Math.max(0, viewportHeight * 0.05 * (1 - progress))}px`
+    `${viewportHeight * windowRatio * (1 - progress)}px`
   );
   pageContent.classList.toggle("is-scrolling", progress > 0);
 };
