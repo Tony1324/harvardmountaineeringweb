@@ -14,46 +14,54 @@
     <main class="hero-scroll">
         <div class="hero">
             <img id="hero-image" src="hero_img/photo1.jpeg" alt="">
-            <img class="hero-logo" src="HMC-Logo-inverse.png" alt="Harvard Mountaineering Club">
+            <a class="hero-logo" href="#about" aria-label="Harvard Mountaineering Club, scroll to About">
+                <img src="HMC-Logo-inverse.png" alt="">
+            </a>
             <div class="hero-panel"></div>
         </div>
 
         <div class="page-content">
             <nav class="hero-nav" aria-label="Main navigation">
-                <p class="hero-title">Harvard<br>Mountaineering<br>Club</p>
+                <h1 class="hero-title">Harvard<br>Mountaineering<br>Club</h1>
                 <div class="hero-links">
                     <!-- <a href="#join">Join</a> -->
                     <a href="#gear">Gear</a>
                     <a href="#board">Board</a>
-                    <a href="https://harvardcabin.org" target="_blank" rel="noopener noreferrer">Cabin</a>
+                    <a href="https://harvardcabin.org" target="_blank" rel="noopener noreferrer">Cabin<span class="visually-hidden"> (opens in new tab)</span></a>
                 </div>
+                <a class="scroll-cue" href="#about" aria-hidden="true" tabindex="-1">
+                    <svg viewBox="0 0 28 16" aria-hidden="true">
+                        <path d="M2 2l12 12L26 2" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </a>
             </nav>
 
-            <section id="about" class="site-section about-section">
+            <section id="about" class="site-section about-section" tabindex="-1">
+                <h2 class="visually-hidden">About</h2>
                 <div class="section-grid">
                     <div class="section-body">
                         <p>Since 1924, HMC has been the home for climbers and mountaineers of Harvard. We are dedicated
                             to facilitating access to the outdoors for all. </p>
-                        <img src="ice-tools.svg" alt="Ice Tools">
+                        <img src="ice-tools.svg" alt="">
                     </div>
                 </div>
             </section>
 
-            <section id="gear" class="site-section gear-section">
+            <section id="gear" class="site-section gear-section" tabindex="-1">
                 <div class="section-grid">
-                    <p class="section-label">Gear</p>
+                    <h2 class="section-label">Gear</h2>
                     <div class="section-body">
-                        <p>As a member of HMC, you will have access free of charge to our gear entire collection
+                        <p>As a member of HMC, you will have access free of charge to our entire gear collection
                              during club trips and your own adventures, which includes climbing ropes, harnesses, helmets,
-                              ice axes, crampons, mountaineering boots, sleep bags, tents, and more. </p>
+                              ice axes, crampons, mountaineering boots, sleeping bags, tents, and more. </p>
                         <p>To borrow gear, please visit our gear hours after the general meetings, or reach out to the Gear Tsars.</p>
                     </div>
                 </div>
             </section>
 
-            <section id="board" class="site-section board-section">
+            <section id="board" class="site-section board-section" tabindex="-1">
                 <div class="section-grid">
-                    <p class="section-label">Mountaineering Board 2026-2027 </p>
+                    <h2 class="section-label">Mountaineering Board 2026–2027</h2>
                     <div class="section-body">
                         <div class="people-grid">
                             <article class="person">
@@ -103,7 +111,7 @@
 
             <footer class="site-footer">
                 <div class="footer-grid">
-                    <p>WEDNESDAYS 8:00 PM</p>
+                    <p>WEDNESDAYS <time datetime="20:00">8:00 PM</time></p>
                     <p>Harvard University SOCH Room 254</p>
                     <p id="footer-quote"><em>Fortunatus et ille deos qui novit agrestis</em></p>
                 </div>

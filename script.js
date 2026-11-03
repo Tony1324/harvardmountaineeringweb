@@ -126,7 +126,7 @@ if ("IntersectionObserver" in window) {
     });
 }
 
-// Nav links scroll smoothly in script rather than with CSS: on desktop the
+// In-page links scroll smoothly in script rather than with CSS: on desktop the
 // content changes width while scrolling, which moves the sections mid-scroll,
 // so the target is re-measured on every frame.
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -137,10 +137,15 @@ const getSectionTarget = (section) =>
   window.scrollY -
   parseFloat(getComputedStyle(section).scrollMarginTop);
 
+// Moving focus to the section (as a plain anchor link would) lets keyboard
+// and screen reader users carry on from there.
+const focusSection = (section) => section.focus({ preventScroll: true });
+
 const scrollToSection = (section) => {
   cancelAnimationFrame(navScrollFrame);
   if (reduceMotion.matches) {
     window.scrollTo(0, getSectionTarget(section));
+    focusSection(section);
     return;
   }
   const startY = window.scrollY;
@@ -150,6 +155,7 @@ const scrollToSection = (section) => {
     const eased = 1 - Math.pow(1 - t, 3);
     window.scrollTo(0, startY + (getSectionTarget(section) - startY) * eased);
     if (t < 1) navScrollFrame = requestAnimationFrame(step);
+    else focusSection(section);
   };
   navScrollFrame = requestAnimationFrame(step);
 };
@@ -161,7 +167,7 @@ const scrollToSection = (section) => {
   })
 );
 
-document.querySelectorAll('.hero-links a[href^="#"]').forEach((link) => {
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
     const section = document.querySelector(link.hash);
     if (!section) return;

@@ -18,16 +18,40 @@
   }
 }
 
+/* A percentage (not px) so the browser's text size setting still applies. */
+html {
+  font-size: 125%;
+}
+
 html,
 body {
   min-height: 100%;
-  font-size: 20px;
 }
 
 body {
   background: var(--content-background);
   color: var(--content-text);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hidden on screen but still read by screen readers. */
+.visually-hidden {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Sections are focused after a nav jump; no ring needed around a whole section. */
+[tabindex="-1"]:focus {
+  outline: none;
 }
 
 .image-window {
@@ -72,14 +96,28 @@ body {
 }
 
 .hero-logo {
+  border-radius: 50%;
+  color: #fff;
+  display: block;
   filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.5));
-  height: auto;
   left: 50%;
   opacity: calc(1 - min(var(--scroll-progress, 0) * 2, 1));
   position: absolute;
   top: 40%;
   transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
   width: min(25vw, 200px);
+}
+
+.hero-logo:hover,
+.hero-logo:focus-visible {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.hero-logo img {
+  display: block;
+  height: auto;
+  width: 100%;
 }
 
 .hero-panel {
@@ -128,12 +166,18 @@ body {
   color: inherit;
 }
 
+/* The shadow keeps nav text readable over bright or busy parts of a photo. */
 :root.image-theme-dark {
   --hero-nav-color: #fff;
+  --hero-nav-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+  --hero-icon-shadow: drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
 }
 
 :root.image-theme-light {
   --hero-nav-color: #17231f;
+  --hero-nav-shadow: 0 0 12px rgba(255, 255, 255, 0.8),
+    0 1px 3px rgba(255, 255, 255, 0.7);
+  --hero-icon-shadow: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
 }
 
 .hero-nav {
@@ -145,11 +189,18 @@ body {
   justify-content: space-between;
   line-height: 1.15;
   padding: 1rem 1rem;
+  text-shadow: var(--hero-nav-shadow, none);
   text-transform: uppercase;
-  transition: background-color 0.5s ease, color 0.5s ease;
+  transition: background-color 0.5s ease, color 0.5s ease,
+    text-shadow 0.5s ease;
 }
 
-a:hover {
+.page-content.is-scrolling .hero-nav {
+  text-shadow: none;
+}
+
+a:hover,
+a:focus-visible {
   font-style: italic;
 }
 
@@ -159,7 +210,60 @@ a:hover {
 }
 
 .hero-title {
+  font-size: inherit;
+  font-weight: inherit;
   max-width: 260px;
+}
+
+/* Bobbing arrow hinting that the page scrolls; hidden once it does. */
+.scroll-cue {
+  left: 50%;
+  padding: 0.5rem;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
+}
+
+.scroll-cue svg {
+  animation: scroll-cue-bob 2s ease-in-out infinite;
+  display: block;
+  filter: var(--hero-icon-shadow, none);
+  height: 16px;
+  width: 28px;
+}
+
+.page-content.is-scrolling .scroll-cue {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes scroll-cue-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue svg {
+    animation: none;
+  }
+
+  /* No scroll-linked blur and zoom, or logo hover growth. */
+  #hero-image,
+  .image-window {
+    filter: none;
+    transform: none;
+  }
+
+  .hero-logo:hover,
+  .hero-logo:focus-visible {
+    transform: translate(-50%, -50%);
+  }
 }
 
 .hero-links {
@@ -339,6 +443,15 @@ a:hover {
   .hero-links {
     gap: 1rem;
     width: 100%;
+  }
+
+  /* Sits at the right end of the links row. */
+  .scroll-cue {
+    bottom: 0.5rem;
+    left: auto;
+    right: 0.5rem;
+    top: auto;
+    transform: none;
   }
 
   .section-grid {
